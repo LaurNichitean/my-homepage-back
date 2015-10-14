@@ -16,7 +16,6 @@ router.get('/movieList', function (req, res) {
  * POST to addMovie.
  */
 router.post('/addMovie', function (req, res) {
-  console.dir(req.body);
   var db = req.db;
   db.collection('movieList').insert(req.body, function (err, result) {
     res.send(
