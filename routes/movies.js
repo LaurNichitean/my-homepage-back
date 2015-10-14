@@ -3,7 +3,7 @@ var router = express.Router();
 var ObjectId = require('mongodb').ObjectID;
 
 /*
- * GET movielist.
+ * GET movieList.
  */
 router.get('/movieList', function (req, res) {
   var db = req.db;
@@ -13,7 +13,7 @@ router.get('/movieList', function (req, res) {
 });
 
 /*
- * POST to addmovie.
+ * POST to addMovie.
  */
 router.post('/addMovie', function (req, res) {
   console.dir(req.body);
@@ -26,7 +26,7 @@ router.post('/addMovie', function (req, res) {
 });
 
 /*
- * PUT to modifymovie.
+ * PUT to modifyMovie.
  */
 router.put('/modifyMovie/:id', function (req, res) {
   var db = req.db;
@@ -40,7 +40,7 @@ router.put('/modifyMovie/:id', function (req, res) {
 });
 
 /*
- * DELETE to deletemovie.
+ * DELETE to deleteMovie.
  */
 router.delete('/deleteMovie/:id', function (req, res) {
   var db = req.db;

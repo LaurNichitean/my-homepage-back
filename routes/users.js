@@ -3,11 +3,11 @@ var router = express.Router();
 var ObjectId = require('mongodb').ObjectID;
 
 /*
- * GET userlist.
+ * GET userList.
  */
-router.get('/userlist', function (req, res) {
+router.get('/userList', function (req, res) {
   var db = req.db;
-  db.collection('userlist').find().toArray(function (err, results) {
+  db.collection('userList').find().toArray(function (err, results) {
     res.json(results);
   });
 });
@@ -18,7 +18,7 @@ router.get('/userlist', function (req, res) {
 router.post('/addUser', function (req, res) {
   console.dir(req.body);
   var db = req.db;
-  db.collection('userlist').insert(req.body, function (err, result) {
+  db.collection('userList').insert(req.body, function (err, result) {
     res.send(
       (err === null) ? {msg: ''} : {msg: 'Error adding user: ' + err}
     )
@@ -30,7 +30,7 @@ router.post('/addUser', function (req, res) {
  */
 router.put('/modifyUser/:id', function (req, res) {
   var db = req.db;
-  db.collection('userlist').update({'_id': ObjectId(req.params.id)},
+  db.collection('userList').update({'_id': ObjectId(req.params.id)},
     {$set: req.body},
     function (err, result) {
       res.send(
@@ -44,7 +44,7 @@ router.put('/modifyUser/:id', function (req, res) {
  */
 router.delete('/deleteUser/:id', function (req, res) {
   var db = req.db;
-  db.collection('userlist').remove({'_id': ObjectId(req.params.id)},
+  db.collection('userList').remove({'_id': ObjectId(req.params.id)},
     function (err, result) {
       res.send(
         (err === null) ? {msg: ''} : {msg: 'Error deleting user: ' + err}
