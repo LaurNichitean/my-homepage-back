@@ -5,13 +5,13 @@ var ObjectId = require('mongodb').ObjectID;
 /*
  * GET movieList.
  */
-router.get('/movieList', function (req, res) {
+router.get('/', function (req, res) {
   var db = req.db;
   db.collection('movieList').find().toArray(function (err, results) {
     res.json(results);
   });
 });
-router.get('/movieList/:id',function(req,res){
+router.get('/:id',function(req,res){
   var db = req.db;
   db.collection("movieList").findOne({'_id': ObjectId(req.params.id)},function(err,results){
 
@@ -23,7 +23,7 @@ router.get('/movieList/:id',function(req,res){
 /*
  * POST to addMovie.
  */
-router.post('/movieList', function (req, res) {
+router.post('/', function (req, res) {
   var db = req.db;
   db.collection('movieList').insert(req.body, function (err, result) {
     res.send(
@@ -35,7 +35,7 @@ router.post('/movieList', function (req, res) {
 /*
  * PUT to modifyMovie.
  */
-router.put('/movieList/:id', function (req, res) {
+router.put('/:id', function (req, res) {
   var db = req.db;
   db.collection('movieList').update({'_id': ObjectId(req.params.id)},
     {$set: req.body},
@@ -49,7 +49,7 @@ router.put('/movieList/:id', function (req, res) {
 /*
  * DELETE to deleteMovie.
  */
-router.delete('/movieList/:id', function (req, res) {
+router.delete('/:id', function (req, res) {
   var db = req.db;
   db.collection('movieList').remove({'_id': ObjectId(req.params.id)},
     function (err, result) {
