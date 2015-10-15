@@ -35,7 +35,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-// make our database accesible to our router
+// make our database accessible to our router
 app.use(function (req, res, next) {
   req.db = dbc;
   next();
