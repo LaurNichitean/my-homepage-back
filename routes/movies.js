@@ -11,11 +11,19 @@ router.get('/movieList', function (req, res) {
     res.json(results);
   });
 });
+router.get('/movieList/:id',function(req,res){
+  var db = req.db;
+  db.collection("movieList").findOne({'_id': ObjectId(req.params.id)},function(err,results){
+
+      res.json(results)
+    });
+  });
+
 
 /*
  * POST to addMovie.
  */
-router.post('/addMovie', function (req, res) {
+router.post('/movieList', function (req, res) {
   var db = req.db;
   db.collection('movieList').insert(req.body, function (err, result) {
     res.send(
@@ -27,7 +35,7 @@ router.post('/addMovie', function (req, res) {
 /*
  * PUT to modifyMovie.
  */
-router.put('/modifyMovie/:id', function (req, res) {
+router.put('/movieList/:id', function (req, res) {
   var db = req.db;
   db.collection('movieList').update({'_id': ObjectId(req.params.id)},
     {$set: req.body},
@@ -41,7 +49,7 @@ router.put('/modifyMovie/:id', function (req, res) {
 /*
  * DELETE to deleteMovie.
  */
-router.delete('/deleteMovie/:id', function (req, res) {
+router.delete('/movieList/:id', function (req, res) {
   var db = req.db;
   db.collection('movieList').remove({'_id': ObjectId(req.params.id)},
     function (err, result) {
