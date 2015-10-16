@@ -5,7 +5,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 var MongoClient = require('mongodb').MongoClient;
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 var dbc;
 // Connect to db
@@ -17,6 +20,15 @@ MongoClient.connect("mongodb://localhost:27017/myHomepage", function (err, db) {
   dbc = db;
   //db.close();
 });
+mongoose.connect("mongodb://localhost:27017/myHomepage", function (err, db) {
+  if (err) {
+    return console.dir(err);
+  }
+  console.log('Successfully connected to MongoDB.');
+  dbc = db;
+  //db.close();
+});
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var movies = require('./routes/movies');
@@ -32,6 +44,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
+app.use(require('express-session')({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
@@ -40,9 +59,17 @@ app.use(function (req, res, next) {
   req.db = dbc;
   next();
 });
+
+
 app.use('/', routes);
 app.use('/api/users', users);
 app.use('/api/movies', movies);
+
+// passport config
+var Account = require('./routes/account.js');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
